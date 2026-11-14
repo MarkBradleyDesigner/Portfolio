@@ -68,3 +68,23 @@
     videos.forEach(function (video) { observer.observe(video); });
   }
 })();
+
+// Navbar: on the home page, colour the link of the section you are looking at
+const navLinks = document.querySelectorAll('.site-nav a[href^="index.html#"]');
+const homeSections = document.querySelectorAll('#about, #case-studies, #various-projects');
+if (homeSections.length) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        navLinks.forEach((link) => {
+          if (link.hash === '#' + entry.target.id) {
+            link.setAttribute('aria-current', 'true');
+          } else {
+            link.removeAttribute('aria-current');
+          }
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  homeSections.forEach((section) => observer.observe(section));
+}
